@@ -75,7 +75,7 @@
   </header>
   <main>
     <div class="form-container">
-      <h2>🔎 Buscar Livro </h2>
+      <h2>🔎 Buscar Livro (Google Books)</h2>
       <input type="text" id="busca" placeholder="Digite o título do livro" />
       <button onclick="pesquisarLivro()">Pesquisar</button>
       <div id="resultados" class="resultados"></div>
@@ -141,12 +141,17 @@
               <img src="\${img}" alt="Capa do livro">
               <h4>\${titulo}</h4>
               <p>\${autor}</p>
-              <button onclick='salvarLivro(\${JSON.stringify({ titulo, autor, img })})'>Adicionar à Galeria</button>
+              <button onclick="salvarLivro({ titulo: \\\`\${titulo}\\\`, autor: \\\`\${autor}\\\`, img: \\\`\${img}\\\` })">Adicionar à Galeria</button>
             \`;
             container.appendChild(div);
           });
         });
     }
+
+    renderGaleria();
+  </script>
+</body>
+</html>
 
     renderGaleria();
   </script>
