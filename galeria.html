@@ -54,12 +54,13 @@
       flex-grow: 1;
     }
     .livro-salvo button {
-      background: #c00;
-      color: white;
+      background: transparent;
+      color: #c00;
       border: none;
-      padding: 6px 10px;
-      border-radius: 4px;
+      font-size: 1.1em;
       cursor: pointer;
+      padding: 4px;
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -74,7 +75,7 @@
   </header>
   <main>
     <div class="form-container">
-      <h2>🔎 Buscar Livro (Google Books)</h2>
+      <h2>🔎 Buscar Livro </h2>
       <input type="text" id="busca" placeholder="Digite o título do livro" />
       <button onclick="pesquisarLivro()">Pesquisar</button>
       <div id="resultados" class="resultados"></div>
@@ -115,7 +116,7 @@
             <strong>${livro.titulo}</strong><br>
             <em>${livro.autor}</em>
           </div>
-          <button onclick="removerLivro(${index})">Remover</button>
+          <button onclick="removerLivro(${index})" title="Remover livro">🗑️</button>
         `;
         galeriaDiv.appendChild(div);
       });
@@ -124,7 +125,7 @@
     function pesquisarLivro() {
       const query = document.getElementById("busca").value.trim();
       if (!query) return;
-      fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6`)
+      fetch(\`https://www.googleapis.com/books/v1/volumes?q=\${encodeURIComponent(query)}&maxResults=6\`)
         .then(res => res.json())
         .then(data => {
           const container = document.getElementById("resultados");
@@ -136,12 +137,12 @@
 
             const div = document.createElement("div");
             div.className = "livro-card";
-            div.innerHTML = `
-              <img src="${img}" alt="Capa do livro">
-              <h4>${titulo}</h4>
-              <p>${autor}</p>
-              <button onclick='salvarLivro(${JSON.stringify({ titulo, autor, img })})'>Adicionar à Galeria</button>
-            `;
+            div.innerHTML = \`
+              <img src="\${img}" alt="Capa do livro">
+              <h4>\${titulo}</h4>
+              <p>\${autor}</p>
+              <button onclick='salvarLivro(\${JSON.stringify({ titulo, autor, img })})'>Adicionar à Galeria</button>
+            \`;
             container.appendChild(div);
           });
         });
