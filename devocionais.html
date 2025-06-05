@@ -36,28 +36,4 @@
       <a href="galeria.html">Galeria</a>
     </nav>
   </header>
-  <main id="conteudo-devocional">
-    <p>Carregando devocionais...</p>
-  </main>
-  <script>
-    fetch('devocionais.json')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('conteudo-devocional');
-        container.innerHTML = '';
-        data.forEach(dev => {
-          const section = document.createElement('section');
-          section.className = 'devocional';
-          section.innerHTML = `
-            <h2>🕊️ ${dev.titulo}</h2>
-            <p><strong>Texto bíblico:</strong> ${dev.versiculo}</p>
-            <blockquote>${dev.texto.split('\n\n')[0]}</blockquote>
-            <p>${dev.texto.split('\n\n').slice(1).join('<br><br>')}</p>
-            <p><em>— ${dev.autor}</em></p>
-          `;
-          container.appendChild(section);
-        });
-      });
-  </script>
-</body>
-</html>
+  <main id="co
