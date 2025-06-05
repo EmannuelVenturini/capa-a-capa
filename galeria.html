@@ -44,10 +44,22 @@
       display: flex;
       gap: 15px;
       align-items: center;
+      justify-content: space-between;
     }
     .livro-salvo img {
       max-width: 80px;
       height: auto;
+    }
+    .livro-info {
+      flex-grow: 1;
+    }
+    .livro-salvo button {
+      background: #c00;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -83,18 +95,27 @@
       renderGaleria();
     }
 
+    function removerLivro(index) {
+      if (confirm("Tem certeza que deseja remover este livro?")) {
+        galeria.splice(index, 1);
+        localStorage.setItem("galeriaLivros", JSON.stringify(galeria));
+        renderGaleria();
+      }
+    }
+
     function renderGaleria() {
       const galeriaDiv = document.getElementById("galeriaLivros");
       galeriaDiv.innerHTML = "";
-      galeria.forEach(livro => {
+      galeria.forEach((livro, index) => {
         const div = document.createElement("div");
         div.className = "livro-salvo";
         div.innerHTML = `
           <img src="${livro.img}" alt="Capa">
-          <div>
+          <div class="livro-info">
             <strong>${livro.titulo}</strong><br>
             <em>${livro.autor}</em>
           </div>
+          <button onclick="removerLivro(${index})">Remover</button>
         `;
         galeriaDiv.appendChild(div);
       });
