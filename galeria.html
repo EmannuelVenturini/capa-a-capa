@@ -54,12 +54,15 @@
       flex-grow: 1;
     }
     .livro-salvo button {
-      background: #c00;
-      color: white;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 4px;
-      cursor: pointer;
+  background: transparent;
+  color: #c00;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 10px;
+}
+
     }
   </style>
 </head>
@@ -74,7 +77,7 @@
   </header>
   <main>
     <div class="form-container">
-      <h2>🔎 Buscar Livro (Google Books)</h2>
+      <h2>🔎 Buscar Livro</h2>
       <input type="text" id="busca" placeholder="Digite o título do livro" />
       <button onclick="pesquisarLivro()">Pesquisar</button>
       <div id="resultados" class="resultados"></div>
@@ -115,7 +118,7 @@
             <strong>${livro.titulo}</strong><br>
             <em>${livro.autor}</em>
           </div>
-          <button onclick="removerLivro(${index})">Remover</button>
+          <button onclick="removerLivro(${index})" title="Remover livro">🗑️</button>
         `;
         galeriaDiv.appendChild(div);
       });
