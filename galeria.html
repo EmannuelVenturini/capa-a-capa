@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>Galeria de Leituras - Capa a Capa</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    header {
+      margin-bottom: 30px;
+    }
     .form-container, .livro-card {
       background: #fff;
       padding: 20px;
@@ -73,6 +80,7 @@
       <a href="devocionais.html">Devocionais</a>
     </nav>
   </header>
+
   <main>
     <div class="form-container">
       <h2>🔎 Buscar Livro (Google Books)</h2>
@@ -141,7 +149,7 @@
               <img src="\${img}" alt="Capa do livro">
               <h4>\${titulo}</h4>
               <p>\${autor}</p>
-              <button onclick="salvarLivro({ titulo: '\${titulo}', autor: '\${autor}', img: '\${img}' })">Adicionar à Galeria</button>
+              <button onclick="salvarLivro({ titulo: '\${titulo.replace(/'/g, "\\\\'")}', autor: '\${autor.replace(/'/g, "\\\\'")}', img: '\${img}' })">Adicionar à Galeria</button>
             \`;
             container.appendChild(div);
           });
