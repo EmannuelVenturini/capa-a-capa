@@ -5,38 +5,49 @@
   <title>Galeria de Leituras - Capa a Capa</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .form-container {
-      margin-bottom: 30px;
-      padding: 20px;
+    .form-container, .livro-card {
       background: #fff;
-      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    input, textarea, button {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
+    input, button {
       padding: 10px;
       font-size: 1em;
+      margin-bottom: 10px;
+      width: 100%;
     }
-    .book-card {
-      background: #fff;
+    .resultados {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .livro-card img {
+      max-width: 100px;
+      height: auto;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .livro-card h4, .livro-card p {
+      margin: 0;
+      font-size: 0.95em;
+    }
+    .galeria {
+      margin-top: 40px;
+    }
+    .livro-salvo {
       border: 1px solid #ccc;
       border-radius: 8px;
-      padding: 15px;
+      padding: 10px;
       margin-bottom: 15px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 15px;
+      align-items: center;
     }
-    .book-card h3 {
-      margin: 0 0 5px;
-    }
-    .book-card button {
-      background: #c00;
-      color: #fff;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
+    .livro-salvo img {
+      max-width: 80px;
+      height: auto;
     }
   </style>
 </head>
@@ -51,57 +62,74 @@
   </header>
   <main>
     <div class="form-container">
-      <h2>Adicionar Livro</h2>
-      <input type="text" id="titulo" placeholder="Título do Livro" />
-      <input type="text" id="autor" placeholder="Autor" />
-      <textarea id="anotacao" placeholder="Anotação pessoal"></textarea>
-      <button onclick="adicionarLivro()">Adicionar</button>
+      <h2>🔎 Buscar Livro</h2>
+      <input type="text" id="busca" placeholder="Digite o título do livro" />
+      <button onclick="pesquisarLivro()">Pesquisar</button>
+      <div id="resultados" class="resultados"></div>
     </div>
-    <div id="galeria"></div>
+
+    <div class="galeria">
+      <h2>📚 Minha Galeria</h2>
+      <div id="galeriaLivros"></div>
+    </div>
   </main>
 
   <script>
-    const galeria = document.getElementById('galeria');
-    let livros = JSON.parse(localStorage.getItem('livros')) || [];
+    let galeria = JSON.parse(localStorage.getItem("galeriaLivros")) || [];
 
-    function renderizarLivros() {
-      galeria.innerHTML = '';
-      livros.forEach((livro, index) => {
-        const div = document.createElement('div');
-        div.className = 'book-card';
+    function salvarLivro(livro) {
+      galeria.push(livro);
+      localStorage.setItem("galeriaLivros", JSON.stringify(galeria));
+      renderGaleria();
+    }
+
+    function renderGaleria() {
+      const galeriaDiv = document.getElementById("galeriaLivros");
+      galeriaDiv.innerHTML = "";
+      galeria.forEach(livro => {
+        const div = document.createElement("div");
+        div.className = "livro-salvo";
         div.innerHTML = `
-          <h3>${livro.titulo} - ${livro.autor}</h3>
-          <p>📝 ${livro.anotacao}</p>
-          <button onclick="removerLivro(${index})">Excluir</button>
+          <img src="${livro.img}" alt="Capa">
+          <div>
+            <strong>${livro.titulo}</strong><br>
+            <em>${livro.autor}</em>
+          </div>
         `;
-        galeria.appendChild(div);
+        galeriaDiv.appendChild(div);
       });
     }
 
-    function adicionarLivro() {
-      const titulo = document.getElementById('titulo').value.trim();
-      const autor = document.getElementById('autor').value.trim();
-      const anotacao = document.getElementById('anotacao').value.trim();
+    function pesquisarLivro() {
+      const query = document.getElementById("busca").value.trim();
+      if (!query) return;
+      fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById("resultados");
+          container.innerHTML = "";
+          data.docs.forEach(livro => {
+            const titulo = livro.title;
+            const autor = livro.author_name ? livro.author_name.join(", ") : "Autor desconhecido";
+            const capaID = livro.cover_i;
+            const img = capaID
+              ? `https://covers.openlibrary.org/b/id/${capaID}-M.jpg`
+              : "https://via.placeholder.com/100x150?text=Sem+Capa";
 
-      if (!titulo || !autor) return alert('Preencha todos os campos');
-
-      livros.push({ titulo, autor, anotacao });
-      localStorage.setItem('livros', JSON.stringify(livros));
-      document.getElementById('titulo').value = '';
-      document.getElementById('autor').value = '';
-      document.getElementById('anotacao').value = '';
-      renderizarLivros();
+            const div = document.createElement("div");
+            div.className = "livro-card";
+            div.innerHTML = `
+              <img src="${img}" alt="Capa do livro">
+              <h4>${titulo}</h4>
+              <p>${autor}</p>
+              <button onclick='salvarLivro(${JSON.stringify({ titulo, autor, img })})'>Adicionar à Galeria</button>
+            `;
+            container.appendChild(div);
+          });
+        });
     }
 
-    function removerLivro(index) {
-      if (confirm('Tem certeza que deseja remover este livro?')) {
-        livros.splice(index, 1);
-        localStorage.setItem('livros', JSON.stringify(livros));
-        renderizarLivros();
-      }
-    }
-
-    renderizarLivros();
+    renderGaleria();
   </script>
 </body>
 </html>
