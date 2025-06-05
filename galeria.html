@@ -3,15 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Galeria de Leituras - Capa a Capa</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 20px;
-      background: #f5f5f5;
-    }
-    header {
-      margin-bottom: 30px;
-    }
     .form-container, .livro-card {
       background: #fff;
       padding: 20px;
@@ -61,13 +54,12 @@
       flex-grow: 1;
     }
     .livro-salvo button {
-      background: transparent;
-      color: #c00;
+      background: #c00;
+      color: white;
       border: none;
-      font-size: 1.1em;
+      padding: 6px 10px;
+      border-radius: 4px;
       cursor: pointer;
-      padding: 4px;
-      margin-left: 10px;
     }
   </style>
 </head>
@@ -80,7 +72,6 @@
       <a href="devocionais.html">Devocionais</a>
     </nav>
   </header>
-
   <main>
     <div class="form-container">
       <h2>🔎 Buscar Livro (Google Books)</h2>
@@ -124,7 +115,7 @@
             <strong>${livro.titulo}</strong><br>
             <em>${livro.autor}</em>
           </div>
-          <button onclick="removerLivro(${index})" title="Remover livro">🗑️</button>
+          <button onclick="removerLivro(${index})">Remover</button>
         `;
         galeriaDiv.appendChild(div);
       });
@@ -133,7 +124,7 @@
     function pesquisarLivro() {
       const query = document.getElementById("busca").value.trim();
       if (!query) return;
-      fetch(\`https://www.googleapis.com/books/v1/volumes?q=\${encodeURIComponent(query)}&maxResults=6\`)
+      fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6`)
         .then(res => res.json())
         .then(data => {
           const container = document.getElementById("resultados");
@@ -145,12 +136,12 @@
 
             const div = document.createElement("div");
             div.className = "livro-card";
-            div.innerHTML = \`
-              <img src="\${img}" alt="Capa do livro">
-              <h4>\${titulo}</h4>
-              <p>\${autor}</p>
-              <button onclick="salvarLivro({ titulo: '\${titulo.replace(/'/g, "\\\\'")}', autor: '\${autor.replace(/'/g, "\\\\'")}', img: '\${img}' })">Adicionar à Galeria</button>
-            \`;
+            div.innerHTML = `
+              <img src="${img}" alt="Capa do livro">
+              <h4>${titulo}</h4>
+              <p>${autor}</p>
+              <button onclick='salvarLivro(${JSON.stringify({ titulo, autor, img })})'>Adicionar à Galeria</button>
+            `;
             container.appendChild(div);
           });
         });
