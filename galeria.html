@@ -141,17 +141,12 @@
               <img src="\${img}" alt="Capa do livro">
               <h4>\${titulo}</h4>
               <p>\${autor}</p>
-              <button onclick="salvarLivro({ titulo: \\\`\${titulo}\\\`, autor: \\\`\${autor}\\\`, img: \\\`\${img}\\\` })">Adicionar à Galeria</button>
+              <button onclick="salvarLivro({ titulo: '\${titulo}', autor: '\${autor}', img: '\${img}' })">Adicionar à Galeria</button>
             \`;
             container.appendChild(div);
           });
         });
     }
-
-    renderGaleria();
-  </script>
-</body>
-</html>
 
     renderGaleria();
   </script>
