@@ -74,7 +74,7 @@
   </header>
   <main>
     <div class="form-container">
-      <h2>🔎 Buscar Livro</h2>
+      <h2>🔎 Buscar Livro (Google Books)</h2>
       <input type="text" id="busca" placeholder="Digite o título do livro" />
       <button onclick="pesquisarLivro()">Pesquisar</button>
       <div id="resultados" class="resultados"></div>
@@ -109,14 +109,14 @@
       galeria.forEach((livro, index) => {
         const div = document.createElement("div");
         div.className = "livro-salvo";
-        div.innerHTML = 
+        div.innerHTML = `
           <img src="${livro.img}" alt="Capa">
           <div class="livro-info">
             <strong>${livro.titulo}</strong><br>
             <em>${livro.autor}</em>
           </div>
           <button onclick="removerLivro(${index})">Remover</button>
-        ;
+        `;
         galeriaDiv.appendChild(div);
       });
     }
@@ -124,7 +124,7 @@
     function pesquisarLivro() {
       const query = document.getElementById("busca").value.trim();
       if (!query) return;
-      fetch(https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6)
+      fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6`)
         .then(res => res.json())
         .then(data => {
           const container = document.getElementById("resultados");
@@ -136,12 +136,12 @@
 
             const div = document.createElement("div");
             div.className = "livro-card";
-            div.innerHTML = 
+            div.innerHTML = `
               <img src="${img}" alt="Capa do livro">
               <h4>${titulo}</h4>
               <p>${autor}</p>
               <button onclick='salvarLivro(${JSON.stringify({ titulo, autor, img })})'>Adicionar à Galeria</button>
-            ;
+            `;
             container.appendChild(div);
           });
         });
