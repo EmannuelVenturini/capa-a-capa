@@ -1,28 +1,169 @@
 
+/* Base */
 body {
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
+  background: #f5f5f5;
   margin: 0;
-  padding: 0;
-  background: #f9f9f9;
-  color: #333;
+  padding: 20px;
+  box-sizing: border-box;
 }
+
 header {
-  background: #111;
-  color: white;
-  padding: 10px;
+  margin-bottom: 30px;
   text-align: center;
-
-
 }
+
+nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 nav a {
-  color: white;
   margin: 0 10px;
   text-decoration: none;
+  color: #0077cc;
 }
-main {
-  max-width: 900px;
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Container padrão para páginas */
+.container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+p {
   line-height: 1.6;
-  text-align: justify;
+  font-size: 1.05em;
+}
+
+.data-devocional {
+  font-weight: bold;
+  color: #555;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  font-size: 0.95em;
+}
+
+/* Galeria de livros */
+.livro-salvo {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.livro-salvo img {
+  max-width: 80px;
+  height: auto;
+}
+
+.livro-info {
+  flex-grow: 1;
+}
+
+.livro-salvo button {
+  background: transparent;
+  color: #c00;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 10px;
+}
+
+/* Resultados da busca */
+.resultados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.livro-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: calc(33.33% - 20px);
+  box-sizing: border-box;
+}
+
+.livro-card img {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.livro-card h4, .livro-card p {
+  margin: 0;
+  font-size: 0.95em;
+}
+
+.livro-card button {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 800px) {
+  .livro-card {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 500px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  h3 {
+    font-size: 1.1em;
+  }
+
+  p {
+    font-size: 1em;
+  }
+
+  nav a {
+    display: inline-block;
+    margin: 5px 5px;
+    font-size: 0.95em;
+  }
+
+  .livro-card {
+    width: 100%;
+  }
 }
